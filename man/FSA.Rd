@@ -3,7 +3,7 @@
 \docType{data}
 \name{FSA}
 \alias{FSA}
-\title{FSA data set with geometry}
+\title{Canadian FSA Boundary Data}
 \format{
 A data frame with 1614 rows and 6 variables:
 \describe{
@@ -16,13 +16,10 @@ A data frame with 1614 rows and 6 variables:
 ...
 }
 }
-\source{
-\url{https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2016-eng.cfm}
-}
 \usage{
 FSA
 }
 \description{
-A data set containing the Canadian FSA geometry shapes
+Provides geospatial information for all Canadian Forward sortation areas (FSA).
 }
 \keyword{datasets}

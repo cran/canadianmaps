@@ -2,6 +2,8 @@
 
 export(coord_transform)
 export(crs_coord)
+export(geom_cd)
+export(geom_csd)
 export(geom_fsa)
 export(geom_prov)
 export(geom_reg)
@@ -12,4 +14,3 @@ export(scale_fill_map)
 export(text_prov)
 export(theme_map)
 export(theme_wallis)
-import(rgdal)

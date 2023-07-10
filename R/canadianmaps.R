@@ -1,11 +1,11 @@
 
 globalVariables(c("aes", '%+replace%', 'element_blank', 'unit', 'element_line', 'element_rect',
-                  'element_text', 'element_blank', 'FSA', 'PROV', 'REG', 'X', 'Y'))
+                  'element_text', 'element_blank', 'FSA', 'PROV', 'REG', 'CD', 'CSD','X', 'Y'))
 
 
-#' Provincial data set with geometry
+#' Canadian Province Boundary Data
 #'
-#' A data set containing the Canadian province geometry shapes
+#' Provides geospatial information for all 13 Canadian provinces and territories.
 #'
 #' @format A data frame with 13 rows and 12 variables:
 #' \describe{
@@ -23,12 +23,11 @@ globalVariables(c("aes", '%+replace%', 'element_blank', 'unit', 'element_line', 
 #'   \item{geometry}{map geometry}
 #'   ...
 #' }
-#' @source \url{https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2016-eng.cfm}
 "PROV"
 
-#' Regional data set with geometry
+#' Canadian Regions Boundary Data
 #'
-#' A dataset containing the Canadian province geometry shapes and set regions
+#' Provides geospatial information for all 4 regions of Canada (Central, Eastern, Western, and Northern).
 #'
 #' @format A data frame with 13 rows and 12 variables:
 #' \describe{
@@ -46,12 +45,11 @@ globalVariables(c("aes", '%+replace%', 'element_blank', 'unit', 'element_line', 
 #'   \item{geometry}{map geometry}
 #'   ...
 #' }
-#' @source \url{https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2016-eng.cfm}
 "REG"
 
-#' FSA data set with geometry
+#' Canadian FSA Boundary Data
 #'
-#' A data set containing the Canadian FSA geometry shapes
+#' Provides geospatial information for all Canadian Forward sortation areas (FSA).
 #'
 #' @format A data frame with 1614 rows and 6 variables:
 #' \describe{
@@ -63,13 +61,48 @@ globalVariables(c("aes", '%+replace%', 'element_blank', 'unit', 'element_line', 
 #'   \item{geometry}{map geometry}
 #'   ...
 #' }
-#' @source \url{https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2016-eng.cfm}
 "FSA"
 
-
-#' Map theme
+#' Canadian Census Division Boundary Data
 #'
-#' Blank theme for mapping.
+#' Provides geospatial information for all Canadian census divisions.
+#'
+#' @format A data frame with 293 rows and 7 variables:
+#' \describe{
+#'   \item{CDNAME}{Census Division names}
+#'   \item{PRUID}{ID column for each province}
+#'   \item{rmapshaperid}{id for geometry}
+#'   \item{population_2021}{Population from 2021 Census}
+#'   \item{PT}{province or territory}
+#'   \item{PRNAME}{Province name}
+#'   \item{geometry}{map geometry}
+#'   ...
+#' }
+"CD"
+
+#'  Canadian Census Sub Division Boundary Data
+#'
+#' Provides geospatial information for all Canadian census sub divisions.
+#'
+#' @format A data frame with 5161 rows and 9 variables:
+#' \describe{
+#'   \item{CDNAME}{Census Division names}
+#'   \item{PRUID}{ID column for each province}
+#'   \item{CDUID}{Census Division ID}
+#'   \item{CMAUID}{CMA ID}
+#'   \item{rmapshaperid}{id for geometry}
+#'   \item{population_2021}{Population from 2021 Census}
+#'   \item{PT}{province or territory}
+#'   \item{PRNAME}{Province name}
+#'   \item{geometry}{map geometry}
+#'   ...
+#' }
+"CSD"
+
+
+#' Plot theme - map
+#'
+#' Blank theme to apply for mapping using ggplot2.
 #'
 #' @return A blank theme for ggplot
 #' @param base_size size for text
@@ -91,9 +124,9 @@ theme_map <- function(base_size=9, base_family="") { # 3
     )
 }
 
-#' Wallis graph theme
+#' Plot theme - Wallis
 #'
-#' Custom theme for graphing.
+#' Custom theme to apply for plotting using ggplot2.
 #'
 #' @return A theme for ggplot
 #' @export
@@ -200,7 +233,6 @@ scale_color_map <- function(palette, num, na.value = "grey90", rev=FALSE) { # 3
 #' @param data a data set with long and lat coordinates
 #' @param long the longitude variable name
 #' @param lat the latitude variable name
-#' @import rgdal
 #' @return Your coordinates transformed.
 #' @export
 coord_transform <- function(data, long, lat) { # 3
@@ -237,7 +269,7 @@ crs_coord <- function() { # 3
 #' @return Provincial map.
 #' @export
 geom_prov <- function(data = PROV, fill = "PT", colour = NA, size = 0.1) {
-  ggplot2::geom_sf(data = data, aes(fill = data[[fill]]), color = colour, size = size)
+  ggplot2::geom_sf(data = data, aes(fill = data[[fill]]), colour = colour, size = size)
 }
 
 #' Mapping regional data
@@ -266,6 +298,34 @@ geom_reg <- function(data = REG, fill = "region", colour = NA, size = 0.1) {
 #' @return FSA map.
 #' @export
 geom_fsa <- function(data = FSA, fill = "PRNAME", colour = "white", size = 0.2) {
+  ggplot2::geom_sf(data = data, aes(fill = data[[fill]]), color = colour, size = size)
+}
+
+#' Mapping Census Division data
+#'
+#' Maps CD data using Statistics Canada CD shape file.
+#'
+#' @param data a data set with geometry variable
+#' @param fill the color fill variable
+#' @param colour outline color, default is NA
+#' @param size size of outline
+#' @return census division map.
+#' @export
+geom_cd <- function(data = CD, fill = "PRNAME", colour = "white", size = 0.2) {
+  ggplot2::geom_sf(data = data, aes(fill = data[[fill]]), color = colour, size = size)
+}
+
+#' Mapping Census Sub Division data
+#'
+#' Maps CSD data using Statistics Canada CSD shape file.
+#'
+#' @param data a data set with geometry variable
+#' @param fill the color fill variable
+#' @param colour outline color, default is NA
+#' @param size size of outline
+#' @return census subdivision map.
+#' @export
+geom_csd <- function(data = CSD, fill = "PRNAME", colour = "white", size = 0.2) {
   ggplot2::geom_sf(data = data, aes(fill = data[[fill]]), color = colour, size = size)
 }
 
