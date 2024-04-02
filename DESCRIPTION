@@ -1,6 +1,6 @@
 Package: canadianmaps
 Title: Effortlessly Create Stunning Canadian Maps
-Version: 1.3.0
+Version: 2.0.0
 Authors@R: 
     person(given = "Joelle",
            family = "Cayen",
@@ -20,8 +20,8 @@ Depends: R (>= 2.10)
 Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2023-07-10 15:06:08 UTC; JCAYEN
+Packaged: 2024-04-02 19:05:39 UTC; JCAYEN
 Author: Joelle Cayen [aut, cre]
 Maintainer: Joelle Cayen <joelle.cayen@phac-aspc.gc.ca>
 Repository: CRAN
-Date/Publication: 2023-07-10 22:30:20 UTC
+Date/Publication: 2024-04-02 22:35:03 UTC
